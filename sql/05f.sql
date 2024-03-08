@@ -7,3 +7,16 @@
  * It's possible to complete this problem both with and without set operations,
  * but I find the version using set operations much more intuitive.
  */
+
+SELECT f1.title FROM film f1
+JOIN film_actor fa1 USING (film_id)
+JOIN film_actor fa2 ON fa1.actor_id = fa2.actor_id
+JOIN film f2 ON f2.film_id = fa2.film_id
+WHERE f2.title = 'AMERICAN CIRCUS'
+INTERSECT 
+SELECT f1.title FROM film f1
+JOIN film_category fb1 USING (film_id)
+JOIN film_category fb2 ON fb1.category_id = fb2.category_id
+JOIN film f2 ON f2.film_id = fb2.film_id
+WHERE f2.title = 'AMERICAN CIRCUS'
+GROUP BY f1.title HAVING count(f1.title) >= 2 ORDER BY 1;
